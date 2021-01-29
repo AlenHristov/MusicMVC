@@ -9,6 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Songs" asp-action="Index">
+    <p>
+        Title: @Html.TextBox("Song")
+        Singer: @Html.TextBox("Singer")
+        <input type="submit" value="Search" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>

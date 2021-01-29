@@ -27,6 +27,8 @@ namespace MusicMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MusicMVCContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("MusicMVCContext")));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -34,9 +36,6 @@ namespace MusicMVC
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            services.AddDbContext<MusicMVCContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MusicMVCContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
