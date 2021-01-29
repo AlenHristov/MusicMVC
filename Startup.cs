@@ -34,6 +34,9 @@ namespace MusicMVC
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddDbContext<MusicMVCContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MusicMVCContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
