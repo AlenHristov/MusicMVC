@@ -20,10 +20,14 @@ namespace MusicMVC.Controllers
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index(string Song, string Singer)
+        public async Task<IActionResult> Index(string musicGenre, string Song, string Singer)
         {
+            IQueryable<string> genreQuery = from m in _context.Song
+                                            orderby m.Genre
+                                            select m.Genre;
+
             var songs = from m in _context.Song
-                         select m;
+                        select m;
 
             if (!String.IsNullOrEmpty(Song))
             {
@@ -33,8 +37,19 @@ namespace MusicMVC.Controllers
             {
                 songs = songs.Where(z => z.Singer.Contains(Singer));
             }
+            if (!string.IsNullOrEmpty(musicGenre))
+            {
+                songs = songs.Where(x => x.Genre == musicGenre);
+            }
 
-            return View(await songs.ToListAsync());
+            var musicGenreVM = new MusicGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Songs = await songs.ToListAsync()
+            };
+
+            return View(musicGenreVM);
+            
 
         }
 

@@ -1,18 +1,21 @@
-﻿@model IEnumerable<MusicMVC.Models.Song>
+﻿@model MusicMVC.Models.MusicGenreViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Songs</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form asp-controller="Songs" asp-action="Index">
+<form asp-controller="Songs" asp-action="Index" method="get">
     <p>
-        Title: @Html.TextBox("Song")
-        Singer: @Html.TextBox("Singer")
+        <select asp-for="MusicGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+        Title: <input type="text" asp-for="Song" />
+        Singer: <input type="text" asp-for="Singer" />
         <input type="submit" value="Search" />
     </p>
 </form>
@@ -20,22 +23,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Songs[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Singer)
+                @Html.DisplayNameFor(model => model.Songs[0].Singer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @Html.DisplayNameFor(model => model.Songs[0].ReleaseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.Songs[0].Genre)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Songs) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
