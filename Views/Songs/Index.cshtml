@@ -6,58 +6,68 @@
 
 <h1>Songs</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="Songs" asp-action="Index" method="get">
+@if (User.IsInRole("Admin") | User.IsInRole("Moderator"))
+{
     <p>
-        <select asp-for="MusicGenre" asp-items="Model.Genres">
-            <option value="">All</option>
-        </select>
-        Title: <input type="text" asp-for="Song" />
-        Singer: <input type="text" asp-for="Singer" />
-        <input type="submit" value="Search" />
+        <a asp-action="Create">Create New</a>
     </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Songs[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Songs[0].Singer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Songs[0].ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Songs[0].Genre)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Songs) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Singer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
 }
-    </tbody>
-</table>
+    <form asp-controller="Songs" asp-action="Index" method="get">
+        <p>
+            <select asp-for="MusicGenre" asp-items="Model.Genres">
+                <option value="">All</option>
+            </select>
+            Title: <input type="text" asp-for="Song" />
+            Singer: <input type="text" asp-for="Singer" />
+            <input type="submit" value="Search" />
+        </p>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Songs[0].Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Songs[0].Singer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Songs[0].ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Songs[0].Genre)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Songs)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Singer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    @if (User.IsInRole("Admin") | User.IsInRole("Moderator"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
