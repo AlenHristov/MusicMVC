@@ -26,6 +26,9 @@
         <thead>
             <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.Songs[0].Image)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Songs[0].Title)
                 </th>
                 <th>
@@ -43,31 +46,34 @@
         <tbody>
             @foreach (var item in Model.Songs)
             {
-                <tr>
+            <tr>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" width="80" height="40" >
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Singer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                @if (User.IsInRole("Admin") | User.IsInRole("Moderator"))
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        }
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Singer)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReleaseDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Genre)
-                    </td>
-                    @if (User.IsInRole("Admin") | User.IsInRole("Moderator"))
-                    {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                            }
-                        </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

@@ -14,5 +14,7 @@ namespace MusicMVC.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime ReleaseDate { get; set; }
         public string Genre { get; set; }
+        [DataType(DataType.ImageUrl)]
+        public string Image { get; set; }
     }
 }
