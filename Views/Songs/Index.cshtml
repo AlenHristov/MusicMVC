@@ -25,6 +25,12 @@
     <table class="table">
         <thead>
             <tr>
+                @if (User.Identity.IsAuthenticated)
+                {
+                <th>
+                    @Html.DisplayNameFor(model => model.Songs[0].Audio)
+                </th>
+                }
                 <th>
                     @Html.DisplayNameFor(model => model.Songs[0].Image)
                 </th>
@@ -47,33 +53,41 @@
             @foreach (var item in Model.Songs)
             {
             <tr>
-                <td>
-                    <img src="@Html.DisplayFor(modelItem => item.Image)" width="80" height="40" >
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Singer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genre)
-                </td>
-                @if (User.IsInRole("Admin") | User.IsInRole("Moderator"))
+                @if (User.Identity.IsAuthenticated)
                 {
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                        }
+                        <audio controls="controls">
+                            <source src="@Html.DisplayFor(modelItem => item.Audio)" type="audio/mp3">
+                        </audio>
                     </td>
                 }
-            </tr>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.Image)" width="80" height="40">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Singer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    @if (User.IsInRole("Admin") | User.IsInRole("Moderator"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                            }
+                        </td>
+                    }
+                </tr>
             }
         </tbody>
     </table>

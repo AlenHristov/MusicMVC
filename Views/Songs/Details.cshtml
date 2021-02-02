@@ -11,6 +11,14 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Audio)
+        </dt>
+        <dd class="col-sm-10">
+            <audio controls="controls">
+                <source src="@Html.DisplayFor(model => model.Audio)" type="audio/mp3">
+            </audio>
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class="col-sm-10">

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,7 @@ namespace MusicMVC.Controllers
         }
 
         // GET: Songs/Details/5
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -72,6 +74,7 @@ namespace MusicMVC.Controllers
         }
 
         // GET: Songs/Create
+        [Authorize(Roles ="Admin,Moderator")]
         public IActionResult Create()
         {
             return View();
@@ -82,7 +85,7 @@ namespace MusicMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Singer,ReleaseDate,Genre,Image")] Song song)
+        public async Task<IActionResult> Create([Bind("ID,Title,Singer,ReleaseDate,Genre,Image,Audio")] Song song)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +97,7 @@ namespace MusicMVC.Controllers
         }
 
         // GET: Songs/Edit/5
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,7 +118,7 @@ namespace MusicMVC.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Singer,ReleaseDate,Genre,Image")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Singer,ReleaseDate,Genre,Image,Audio")] Song song)
         {
             if (id != song.ID)
             {
@@ -145,6 +149,7 @@ namespace MusicMVC.Controllers
         }
 
         // GET: Songs/Delete/5
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

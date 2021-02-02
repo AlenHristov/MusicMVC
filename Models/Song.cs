@@ -16,5 +16,6 @@ namespace MusicMVC.Models
         public string Genre { get; set; }
         [DataType(DataType.ImageUrl)]
         public string Image { get; set; }
+        public string Audio { get; set; }
     }
 }
